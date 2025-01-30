@@ -1,12 +1,37 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+
+type FormData={
+  email: string;
+  password: string;
+}
+
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [login, setLogin] = useState(true);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>();
+  const onSubmit = (data: FormData) => {
+
+    console.log(data);
+    if (login) {
+
+    } else {
+      // Handle signup logic
+    }
+  };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden">
@@ -16,9 +41,11 @@ export function LoginForm({
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
                 <p className="text-balance text-muted-foreground">
-                  Login to Smart Prompt Lab
+                  {/* Login to Smart Prompt Lab */}
+                  {login ? "Login to Smart Prompt Lab" : "Sign up for an account"}
                 </p>
               </div>
+
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -26,6 +53,13 @@ export function LoginForm({
                   type="email"
                   placeholder="m@example.com"
                   required
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
                 />
               </div>
               <div className="grid gap-2">
@@ -38,11 +72,19 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" type="password" required {...register("password", {
+                    required: "Password is required",
+                    minLength: !login
+                      ? {
+                          value: 8,
+                          message: "Password must be at least 8 characters",
+                        }
+                      : undefined,
+                  })} />
               </div>
               <Button type="submit" className="w-full">
-                Login
-              </Button>
+                {login ? "Log In" : "Sign up"}
+              </Button> 
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-background px-2 text-muted-foreground">
                   Or continue with
@@ -79,9 +121,10 @@ export function LoginForm({
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <a href="#" className="underline underline-offset-4">
-                  Sign up
-                </a>
+                <Button onClick={()=>{setLogin(!login)}} variant={"link"}>
+                  {/* Sign up */}
+                  {login ? "Sign up" : "Login"}
+                </Button>
               </div>
             </div>
           </form>
