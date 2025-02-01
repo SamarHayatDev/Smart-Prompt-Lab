@@ -15,7 +15,10 @@ const CopyPrompt = ({ text }: { text: string }) => {
 
       setTimeout(() => setCopied(false), 3000);
     } catch (error) {
-      toast({ title: "Failed to copy", description: "Please try again" });
+      toast({
+        title: "Failed to copy",
+        description: `Please try again error: ${error}`,
+      });
     }
   };
 
