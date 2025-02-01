@@ -6,6 +6,7 @@ const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_NHOST_GRAPHQL_URL,
 });
 
+console.log("url:", process.env.NEXT_PUBLIC_NHOST_GRAPHQL_URL);
 // const authLink = setContext((_, { headers }) => {
 //   const token = nhost.auth.getAccessToken();
 //   return {
