@@ -47,7 +47,7 @@ export default function MainLayout({
             <Button variant="link">Claude AI</Button>
             <Button variant="link">Gemini</Button>
             <Button variant="link">Perplexity AI</Button>
-            <Link href="/login">LogIn</Link>
+            {/* <Link href="/login">LogIn</Link> */}
             <ModeToggle />
           </div>
         </header>

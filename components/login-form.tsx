@@ -71,7 +71,7 @@ export function LoginForm({
       toast({
         variant: "destructive",
         title: "Error",
-        description: `Error during authentication: ${(error as any)?.message}`,
+        description: `Error during authentication: ${(error as Error).message}`,
       });
     }
   };
