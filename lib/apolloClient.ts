@@ -8,7 +8,7 @@ const httpLink = createHttpLink({
 
 const authLink = setContext(async (_, { headers }) => {
   const token = await nhost.auth.getAccessToken();
-  console.log("token:", token, nhost);
+
   return {
     headers: {
       ...headers,

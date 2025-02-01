@@ -40,9 +40,7 @@ export default function MainLayout({
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          {/* <div className="ml-auto px-3">
-            <NavActions />
-          </div> */}
+
           <div className="md:ml-auto px-3 flex">
             <NavData />
             <ModeToggle />
