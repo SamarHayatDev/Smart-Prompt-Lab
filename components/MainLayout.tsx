@@ -26,7 +26,7 @@ export default function MainLayout({
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex flex-col md:flex-row h-14 shrink-0 items-start md:items-center gap-2">
+        <header className="flex flex-col md:flex-row min-h-14 shrink-0 items-start md:items-center gap-2">
           <div className="flex flex-1 items-center gap-2 px-3">
             <SidebarTrigger />
             <Separator orientation="vertical" className="mr-2 h-4" />
@@ -41,7 +41,7 @@ export default function MainLayout({
             </Breadcrumb>
           </div>
 
-          <div className="md:ml-auto px-3 flex">
+          <div className="md:ml-auto px-3 flex items-center justify-between">
             <NavData />
             <ModeToggle />
           </div>
