@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { nhost } from "@/lib/nhost";
 import Link from "next/link";
 import Image from "next/image";
+import { useToast } from "@/hooks/use-toast";
 
 type FormData = {
   email: string;
@@ -21,41 +22,57 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   const [login, setLogin] = useState(true);
   const { register, handleSubmit } = useForm<FormData>();
-  // const onSubmit = async (data: FormData) => {
-  //   console.log("Form submitted with data:", data);
+  const { toast } = useToast();
 
-  //   if (login) {
-  //     // Handle login logic
-  //     const res = await nhost.auth.signIn({
-  //       email: data.email,
-  //       password: data.password,
-  //     });
-  //     console.log("login", res);
-  //     if (res.session?.accessToken) {
-  //       console.log("res login:", res);
-  //       return;
-  //     }
-  //   } else {
-  //     // Handle signup logic
-  //     const res = await nhost.auth.signUp({
-  //       email: data.email,
-  //       password: data.password,
-  //     });
-  //     console.log("SignUp", res);
-  //     if (res.session?.accessToken) {
-  //       // toast.success("Logged in successfully!");
-  //       console.log("res Signup:", res);
-  //       return;
-  //     }
-  //   }
-  // };
-  const onSubmit = (data: FormData) => {
-    if (login) {
-      const res = nhost.auth.signUp({
-        email: data.email,
-        password: data.password,
+  const onSubmit = async (data: FormData) => {
+    try {
+      let res;
+      if (login) {
+        res = await nhost.auth.signIn({
+          email: data.email,
+          password: data.password,
+        });
+
+        if (res.session) {
+          toast({
+            title: "Login Successful",
+            // description: `Access Token: ${res.session.accessToken}`,
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Login Failed",
+            description: res.error
+              ? res.error.message
+              : "Unknown error occurred",
+          });
+        }
+      } else {
+        res = await nhost.auth.signUp({
+          email: data.email,
+          password: data.password,
+        });
+        console.log("res SignUp:", res);
+        if (res.session) {
+          toast({
+            title: "Sign Up Successful",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Sign Up Failed",
+            description: res.error
+              ? res.error.message
+              : "Unknown error occurred",
+          });
+        }
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: `Error during authentication: ${(error as any)?.message}`,
       });
-      console.log("res", res);
     }
   };
   return (
@@ -93,7 +110,7 @@ export function LoginForm({
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                   <Link
-                    href="/"
+                    href=""
                     className="ml-auto text-sm underline-offset-2 hover:underline"
                   >
                     Forgot your password?
@@ -107,8 +124,8 @@ export function LoginForm({
                     required: "Password is required",
                     minLength: !login
                       ? {
-                          value: 8,
-                          message: "Password must be at least 8 characters",
+                          value: 4,
+                          message: "Password must be at least 4 characters",
                         }
                       : undefined,
                   })}
