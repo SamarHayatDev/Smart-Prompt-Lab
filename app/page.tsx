@@ -1,50 +1,29 @@
-"use client";
 import MainLayout from "@/components/MainLayout";
 import PromptCard from "@/components/PromptCard";
 import { GET_PROMPTS } from "@/graphql/prompts/Query";
-import { useQuery } from "@apollo/client";
+import { client } from "@/lib/apolloClient";
 
-export default function Home() {
-  const { data, error } = useQuery(GET_PROMPTS);
-  console.log("res:", data, error);
-  const prompts = [
-    {
-      title: "Plan Your Day",
-      description:
-        "Create a detailed schedule for your work and personal tasks today.",
-    },
-    {
-      title: "Budget Tracker",
-      description:
-        "List your expenses and categorize them to identify areas to save money.",
-    },
-    {
-      title: "Meal Planner",
-      description:
-        "Plan your meals for the week with a focus on healthy and balanced options.",
-    },
-    {
-      title: "Project Brainstorm",
-      description:
-        "Outline the key steps and resources needed for your next big project.",
-    },
-    {
-      title: "Workout Routine",
-      description:
-        "Design a workout plan tailored to your fitness goals and level.",
-    },
-  ];
+export default async function Home() {
+  const { data } = await client.query({ query: GET_PROMPTS });
+
+  const prompts = data?.prompts || [];
 
   return (
     <MainLayout>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {prompts.map((prompt, index) => (
-          <PromptCard
-            key={index}
-            title={prompt.title}
-            description={prompt.description}
-          />
-        ))}
+        {prompts.map(
+          (prompt: {
+            id: string;
+            prompt_title: string;
+            prompt_desc: string;
+          }) => (
+            <PromptCard
+              key={prompt.id}
+              title={prompt.prompt_title}
+              description={prompt.prompt_desc}
+            />
+          )
+        )}
       </div>
     </MainLayout>
   );

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "./ui/button";
 import { ModeToggle } from "./Toggler";
+import NavData from "./NavData";
 // import Link from "next/link";
 
 export default function MainLayout({
@@ -43,11 +44,7 @@ export default function MainLayout({
             <NavActions />
           </div> */}
           <div className="md:ml-auto px-3 flex">
-            <Button variant="link">ChatGPT</Button>
-            <Button variant="link">Claude AI</Button>
-            <Button variant="link">Gemini</Button>
-            <Button variant="link">Perplexity AI</Button>
-            {/* <Link href="/login">LogIn</Link> */}
+            <NavData />
             <ModeToggle />
           </div>
         </header>
