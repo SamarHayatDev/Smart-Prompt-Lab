@@ -12,7 +12,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Button } from "./ui/button";
+
 import { ModeToggle } from "./Toggler";
 import NavData from "./NavData";
 // import Link from "next/link";
