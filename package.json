@@ -8,6 +8,11 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom",
+    "next": "$next"
+  },
   "dependencies": {
     "@apollo/client": "^3.12.8",
     "@nhost/nextjs": "^2.2.2",

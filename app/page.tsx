@@ -1,7 +1,12 @@
+"use client";
 import MainLayout from "@/components/MainLayout";
 import PromptCard from "@/components/PromptCard";
+import { GET_PROMPTS } from "@/graphql/prompts/Query";
+import { useQuery } from "@apollo/client";
 
 export default function Home() {
+  const { data, error } = useQuery(GET_PROMPTS);
+  console.log("res:", data, error);
   const prompts = [
     {
       title: "Plan Your Day",

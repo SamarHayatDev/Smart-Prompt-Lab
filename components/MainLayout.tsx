@@ -1,5 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar";
-import { NavActions } from "@/components/nav-actions";
+// import { NavActions } from "@/components/nav-actions";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "./ui/button";
 import { ModeToggle } from "./Toggler";
+import Link from "next/link";
 
 export default function MainLayout({
   children,
@@ -32,7 +33,7 @@ export default function MainLayout({
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbPage className="line-clamp-1">
-                    World's First & Most Famous Prompts Directory
+                    World&apos;s First & Most Famous Prompts Directory
                   </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
@@ -46,6 +47,7 @@ export default function MainLayout({
             <Button variant="link">Claude AI</Button>
             <Button variant="link">Gemini</Button>
             <Button variant="link">Perplexity AI</Button>
+            <Link href="/login">LogIn</Link>
             <ModeToggle />
           </div>
         </header>

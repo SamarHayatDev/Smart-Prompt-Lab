@@ -6,43 +6,70 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { nhost } from "@/lib/nhost";
+import Link from "next/link";
+import Image from "next/image";
 
-type FormData={
+type FormData = {
   email: string;
   password: string;
-}
+};
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const [login, setLogin] = useState(true);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormData>();
+  const { register, handleSubmit } = useForm<FormData>();
+  // const onSubmit = async (data: FormData) => {
+  //   console.log("Form submitted with data:", data);
+
+  //   if (login) {
+  //     // Handle login logic
+  //     const res = await nhost.auth.signIn({
+  //       email: data.email,
+  //       password: data.password,
+  //     });
+  //     console.log("login", res);
+  //     if (res.session?.accessToken) {
+  //       console.log("res login:", res);
+  //       return;
+  //     }
+  //   } else {
+  //     // Handle signup logic
+  //     const res = await nhost.auth.signUp({
+  //       email: data.email,
+  //       password: data.password,
+  //     });
+  //     console.log("SignUp", res);
+  //     if (res.session?.accessToken) {
+  //       // toast.success("Logged in successfully!");
+  //       console.log("res Signup:", res);
+  //       return;
+  //     }
+  //   }
+  // };
   const onSubmit = (data: FormData) => {
-
-    console.log(data);
     if (login) {
-
-    } else {
-      // Handle signup logic
+      const res = nhost.auth.signUp({
+        email: data.email,
+        password: data.password,
+      });
+      console.log("res", res);
     }
   };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form className="p-6 md:p-8" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
                 <p className="text-balance text-muted-foreground">
-                  {/* Login to Smart Prompt Lab */}
-                  {login ? "Login to Smart Prompt Lab" : "Sign up for an account"}
+                  {login
+                    ? "Login to Smart Prompt Lab"
+                    : "Sign up for an account"}
                 </p>
               </div>
 
@@ -65,14 +92,18 @@ export function LoginForm({
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <a
-                    href="#"
+                  <Link
+                    href="/"
                     className="ml-auto text-sm underline-offset-2 hover:underline"
                   >
                     Forgot your password?
-                  </a>
+                  </Link>
                 </div>
-                <Input id="password" type="password" required {...register("password", {
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  {...register("password", {
                     required: "Password is required",
                     minLength: !login
                       ? {
@@ -80,11 +111,12 @@ export function LoginForm({
                           message: "Password must be at least 8 characters",
                         }
                       : undefined,
-                  })} />
+                  })}
+                />
               </div>
               <Button type="submit" className="w-full">
                 {login ? "Log In" : "Sign up"}
-              </Button> 
+              </Button>
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-background px-2 text-muted-foreground">
                   Or continue with
@@ -121,17 +153,22 @@ export function LoginForm({
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <Button onClick={()=>{setLogin(!login)}} variant={"link"}>
-                  {/* Sign up */}
+                <Button
+                  onClick={() => {
+                    setLogin(!login);
+                  }}
+                  variant={"link"}
+                >
                   {login ? "Sign up" : "Login"}
                 </Button>
               </div>
             </div>
           </form>
           <div className="relative hidden bg-muted md:block">
-            <img
+            <Image
               src="https://cdn-front.freepik.com/images/ai/image-generator/advantages/image-generator-freepik-7.webp?w=1920&h=1920&q=75"
               alt="Image"
+              fill
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
             />
           </div>

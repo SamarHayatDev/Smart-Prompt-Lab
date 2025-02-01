@@ -1,3 +1,4 @@
+"use client";
 import { nhost } from "@/lib/nhost";
 import { NhostProvider } from "@nhost/nextjs";
 
