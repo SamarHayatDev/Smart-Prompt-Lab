@@ -41,7 +41,7 @@ export default function MainLayout({
             </Breadcrumb>
           </div>
 
-          <div className="md:ml-auto px-3 flex items-center justify-between">
+          <div className="md:ml-auto px-3 flex items-center justify-between w-full md:w-auto">
             <NavData />
             <ModeToggle />
           </div>
